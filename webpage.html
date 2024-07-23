@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset ="utf-8">
+        <meta name="viewport" content=""width=device-width,initial-scale=1.0>
+        <title>Prodect Details Webpage</title>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            .product-details {
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 10px;
+                max-width: 300px;
+            }
+            .product-details img {
+                max-width: 100%;
+                border-radius: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="product-details" id ="product-details">
+
+        </div>
+    </body>
+
+    <script>
+        //fetch product details
+        function fetchProductDetails(){
+            const DEMO_URL = "https://course-api.com/react-store-products";
+
+        fetch(DEMO_URL)
+            .then(response =>{
+                if(!response.ok){
+                    throw new Error('Network response was not ok'+ response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayProductDetails(data);
+            })
+            .catch(error => {
+                console.error('Problem with fetch operation:',error);
+                document.getElementById("product-details").innerText='Failed to load product details';
+            });
+        }
+
+        //display product details
+        function displayProductDetails(product){
+            const productDetailsDiv=document.getElementById('Product-details');
+
+            const productHTML = `
+            <h2>${product.name}</h2>
+            <img src="${product.imageUrl}" alt="${product.name}">
+             <p><strong>Id:</strong> ${product.id}</p>
+            <p><strong>Price:</strong> ${product.price}</p>
+            <p><strong>Description:</strong> ${product.description}</p>`;
+
+            productDetailsDiv.innerHTML = productHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded',fetchProductDetails);
+    </script>
+
+</html>
